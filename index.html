@@ -240,6 +240,393 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/数据库的锁机制-一/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="toy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/03/数据库的锁机制-一/" itemprop="url">
+                  数据库的锁机制(一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T11:50:45+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="数据库的锁机制（一）"><a href="#数据库的锁机制（一）" class="headerlink" title="数据库的锁机制（一）"></a>数据库的锁机制（一）</h1><p>锁的定义</p>
+<blockquote>
+<p>  当并发事务同时访问一个资源时，有可能导致数据不一致，因此需要一种机制来将数据访问顺序化，以保证数据库数据的一致性。锁就是其中的一种机制。</p>
+<p>在计算机科学中，锁是在执行多线程时用于强行限制资源访问的同步机制，即用于在并发控制中保证对互斥要求的满足。</p>
+</blockquote>
+<h2 id="锁的分类"><a href="#锁的分类" class="headerlink" title="锁的分类"></a>锁的分类</h2><ol>
+<li>按操作划分，可分为<font color="red">DML锁、DDL锁</font></li>
+<li>按锁的粒度划分，可分为<font color="red">表级锁(INNODB引擎)、行级锁(MYISAM引擎)、页级锁(BDB引擎 )</font>（mysql）</li>
+<li>按锁级别划分，可分为<font color="red">共享锁、排他锁</font></li>
+<li>按加锁方式划分，可分为<font color="red">自动锁、显示锁</font></li>
+<li>按使用方式划分，可分为<font color="red">乐观锁、悲观锁</font></li>
+</ol>
+<h3 id="DML锁（data-locks，数据锁）"><a href="#DML锁（data-locks，数据锁）" class="headerlink" title="DML锁（data locks，数据锁）"></a>DML锁（data locks，数据锁）</h3><blockquote>
+<p>用于保护数据的完整性，其中包括行级锁(Row Locks (TX锁))、表级锁(table lock(TM锁))</p>
+</blockquote>
+<h3 id="DDL锁（dictionary-locks，数据字典锁）"><a href="#DDL锁（dictionary-locks，数据字典锁）" class="headerlink" title="DDL锁（dictionary locks，数据字典锁）"></a>DDL锁（dictionary locks，数据字典锁）</h3><blockquote>
+<p> 用于保护数据库对象的结构，如表、索引等的结构定义。其中包排他DDL锁（Exclusive DDL lock）、共享DDL锁（Share DDL lock）、可中断解析锁（Breakable parse locks）</p>
+</blockquote>
+<h3 id="行级锁"><a href="#行级锁" class="headerlink" title="行级锁"></a>行级锁</h3><blockquote>
+<p>行级锁是Mysql中锁定粒度最细的一种锁，表示只针对当前操作的行进行加锁。行级锁能大大减少数据库操作的冲突。其加锁粒度最小，但加锁的开销也最大。行级锁分为共享锁 和 排他锁。</p>
+</blockquote>
+<p>特点:</p>
+<ul>
+<li>开销大，加锁慢；</li>
+<li>会出现死锁；</li>
+<li>锁定粒度最小，发生锁冲突的概率最低；</li>
+<li>并发度也最高；</li>
+</ul>
+<h3 id="页级锁"><a href="#页级锁" class="headerlink" title="页级锁"></a>页级锁</h3><blockquote>
+<p>页级锁是MySQL中锁定粒度介于行级锁和表级锁中间的一种锁。表级锁速度快，但冲突多，行级冲突少，但速度慢。所以取了折衷的页级，一次锁定相邻的一组记录。BDB支持页级锁</p>
+</blockquote>
+<p>特点:</p>
+<ul>
+<li>开销和加锁时间界于表锁和行锁之间；</li>
+<li>会出现死锁；</li>
+<li>锁定粒度界于表锁和行锁之间；</li>
+<li>并发度一般；</li>
+</ul>
+<h3 id="表级锁"><a href="#表级锁" class="headerlink" title="表级锁"></a>表级锁</h3><blockquote>
+<p>表级锁是MySQL中锁定粒度最大的一种锁，表示对当前操作的整张表加锁，它实现简单，资源消耗较少，被大部分MySQL引擎支持。最常使用的MYISAM与INNODB都支持表级锁定。表级锁定分为表共享读锁（共享锁）与表独占写锁（排他锁）。 </p>
+</blockquote>
+<p>特点:</p>
+<ul>
+<li>开销小，加锁快；</li>
+<li>不会出现死锁；</li>
+<li>锁定粒度大，发出锁冲突的概率最高；</li>
+<li>并发度最低；</li>
+</ul>
+<p>MySQL不同存储引擎的锁机制:</p>
+<ol>
+<li>MyISAM和MEMORY采用表级锁(table-level locking)</li>
+<li>BDB采用页面锁(page-level locking)或表级锁，默认为页面锁</li>
+<li>InnoDB支持行级锁(row-level locking)和表级锁,默认为行级锁</li>
+</ol>
+<h3 id="InnoDB中的锁"><a href="#InnoDB中的锁" class="headerlink" title="InnoDB中的锁"></a>InnoDB中的锁</h3><p>在InnoDB中支持两种锁:行级锁和表级锁。默认是支持表级锁,在InnoDB行锁是通过给索引上的索引项加锁来实现的。这意味着：<strong>只有通过索引条件检索数据，InnoDB才使用行级锁，否则，InnoDB将使用表锁！</strong></p>
+<p>所以在实际开发需要注意以下几点:</p>
+<ul>
+<li>在不通过索引条件查询的时候,InnoDB 确实使用的是表锁,而不是行锁。</li>
+<li>在MySQL中行级锁是针对索引项的锁，而不是对整一条记录的锁。所以在访问不同的两条记录，如果这两条记录索引键是相同的，可能会出现锁冲突，和Oracle有比较大的不同。在设计的时候需要注意</li>
+<li>当表有多个索引的时候，不同的事务可以使用不同的索引锁定不同的行，使用主键索引、唯一索引或普通索引,InnoDB 都会使用行锁来对数据加锁</li>
+<li>在MySQL中使用检索字段进行索引，但是不一定会使用索引，因为在mysql中是否使用索引来查询数据，是由MySQL根据不同执行代价来判断的。例如：在查询的时候mysql 认为如果全表扫描比索引更快的时候，则它不会使用索引。所以在查询锁冲突的时候，需要判断是否使用 了索引</li>
+</ul>
+<h3 id="行级锁和死锁"><a href="#行级锁和死锁" class="headerlink" title="行级锁和死锁"></a>行级锁和死锁</h3><p>MySQL中，行级锁并不是直接锁记录，而是锁索引。索引分为主键索引和非主键索引两种，如果一条sql语句操作了主键索引，MySQL就会锁定这条主键索引；如果一条语句操作了非主键索引，MySQL会先锁定该非主键索引，再锁定相关的主键索引。 在UPDATE、DELETE操作时，MySQL不仅锁定WHERE条件扫描过的所有索引记录，而且会锁定相邻的键值，即所谓的next-key locking。</p>
+<p>当两个事务同时执行，一个锁住了主键索引，在等待其他相关索引。另一个锁定了非主键索引，在等待主键索引。这样就会发生死锁。</p>
+<p>发生死锁后，InnoDB一般都可以检测到，并使一个事务释放锁回退，另一个获取锁完成事务</p>
+<p>注：<strong><em>MyISAM中是不会产生死锁的，因为MyISAM总是一次性获得所需的全部锁，要么全部满足，要么全部等待。而在InnoDB中，锁是逐步获得的，就造成了死锁的可能</em></strong></p>
+<h3 id="避免死锁的方式"><a href="#避免死锁的方式" class="headerlink" title="避免死锁的方式"></a>避免死锁的方式</h3><ol>
+<li>如果不同程序会并发存取多个表，尽量约定以相同的顺序访问表，可以大大降低死锁机会。</li>
+<li>在同一个事务中，尽可能做到一次锁定所需要的所有资源，减少死锁产生概率；</li>
+<li>对于非常容易产生死锁的业务部分，可以尝试使用升级锁定颗粒度，通过表级锁定来减少死锁产生的概率；</li>
+</ol>
+<h2 id="共享锁-Share-Lock"><a href="#共享锁-Share-Lock" class="headerlink" title="共享锁(Share Lock)"></a>共享锁(Share Lock)</h2><blockquote>
+<p>共享锁又称读锁，是读取操作创建的锁。其他用户可以并发读取数据，但任何事务都不能对数据进行修改（获取数据上的排他锁），直到已释放所有共享锁。</p>
+<p>如果事务T对数据A加上共享锁后，则其他事务只能对A再加共享锁，不能加排他锁。获准共享锁的事务只能读数据，不能修改数据。</p>
+</blockquote>
+<p>用法（mysql）:</p>
+<pre><code>SELECT ... lock in share model;
+</code></pre><p>在查询语句后面增加LOCK IN SHARE MODE，Mysql会对查询结果中的每行都加共享锁，当没有其他线程对查询结果集中的任何一行使用排他锁时，可以成功申请共享锁，否则会被阻塞。其他线程也可以读取使用了共享锁的表，而且这些线程读取的是同一个版本的数据</p>
+<h2 id="排他锁（eXclusive-Lock）"><a href="#排他锁（eXclusive-Lock）" class="headerlink" title="排他锁（eXclusive Lock）"></a>排他锁（eXclusive Lock）</h2><blockquote>
+<p>排他锁又称写锁，如果事务T对数据A加上排他锁后，则其他事务不能再对A加任任何类型的封锁。获准排他锁的事务既能读数据，又能修改数据。 </p>
+</blockquote>
+<p>用法（mysql）:</p>
+<pre><code>SELECT ... for update; 
+</code></pre><p> 在查询语句后面增加FOR UPDATE，Mysql会对查询结果中的每行都加排他锁，当没有其他线程对查询结果集中的任何一行使用排他锁时，可以成功申请排他锁，否则会被阻塞</p>
+<h2 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h2><blockquote>
+<p>意向锁是表级锁，其设计目的主要是为了在一个事务中揭示下一行将要被请求锁的类型</p>
+</blockquote>
+<p>InnoDB中的两个表锁:</p>
+<ol>
+<li><strong>意向共享锁（IS）</strong>：表示事务准备给数据行加入共享锁，也就是说一个数据行加共享锁前必须先取得该表的IS锁    </li>
+<li><strong>意向排他锁（IX）</strong>：类似上面，表示事务准备给数据行加入排他锁，说明事务在一个数据行加排他锁前必须先取得该表的IX锁。</li>
+</ol>
+<p>注：<strong>意向锁是InnoDB自动加的，不需要用户干预。</strong><br>对于insert、update、delete，InnoDB会自动给涉及的数据加排他锁（X）；对于一般的Select语句，InnoDB不会加任何锁，事务可以通过以下语句给显示加共享锁或排他锁</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/编程规范补充/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="toy">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/03/编程规范补充/" itemprop="url">
+                  编程规范补充
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T11:48:35+08:00">
+                2017-06-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="编程规范补充"><a href="#编程规范补充" class="headerlink" title="编程规范补充"></a>编程规范补充</h1><h2 id="命名规范"><a href="#命名规范" class="headerlink" title="命名规范"></a>命名规范</h2><ol>
+<li>抽象类命名以Abstract或者Base开头，</li>
+<li>数组定义括号在前 例如：String [] args;</li>
+<li>POJO类型中的布尔类型变量，前面不能加is;</li>
+<li>使用设计模式的时候,在命名的时候体现出来;</li>
+<li>接口设计的时候方法和属性不加任何修饰符(包括public),尽量在接口中定义变量,如果声明必须是整个应用的基础常量</li>
+<li>对于Service和Dao，暴露接口而不是实现；推荐实现用Able后缀</li>
+<li>枚举类型的值必须是大写且用下划线分开</li>
+<li>模型对象命名方式 数据对象：xxxDO,数据传输对象(业务) xxxDTO,展示对象 xxxVO ,禁止使用POJO命名</li>
+</ol>
+<h2 id="常量定义"><a href="#常量定义" class="headerlink" title="常量定义"></a>常量定义</h2><ol>
+<li>禁止使用未声明的常量</li>
+<li>通用变量设置成 应用内共享常量 例如 YES</li>
+</ol>
+<h2 id="规格约束"><a href="#规格约束" class="headerlink" title="规格约束"></a>规格约束</h2><ol>
+<li>运算符号左右必须有一个空格</li>
+<li>代码块缩进4个空格</li>
+<li>if/for/while/switch/do 保留字和左右括号之间必须有空格</li>
+<li>单行字符超过120个必须换行。换行代点号的也必须在一起换行</li>
+<li>声明变量顶格对齐</li>
+</ol>
+<h2 id="OPP约束"><a href="#OPP约束" class="headerlink" title="OPP约束"></a>OPP约束</h2><ol>
+<li>避免通过一个类的对象引用访问此类的静态变量或静态方法;</li>
+<li>覆写方法，必须加上@Override注解;</li>
+<li>Object的equals 容易抛空指针异常。应该使用 常量.equest(对象) 或者使用java.util.Objects#equests</li>
+<li>相同包装类之间的比较使用equest</li>
+<li>所有的pojo类属性必须使用包装数据类型 例如使用 Integer 不使用int</li>
+</ol>
+<ul>
+<li>pojo类属性没有初始值提醒 使用者，必须显示赋值</li>
+</ul>
+<ul>
+<li>当数据库的查询结果是null的时候。因为自动拆箱,基本数据可能NPE(空指针)问题</li>
+</ul>
+<ol>
+<li>RPC(远程调用)方法的放回值和参数必须使用包装数据类型</li>
+<li>所有局部变量推荐使用基本数据类型</li>
+<li>定义POJO类的时候。不要设定默认值 ，有时候没有设置具体值，会显示默认 例如:时间没有设置。则会显示当前时间</li>
+<li>构造方法禁止写业务逻辑。如果有初始化逻辑。加入init</li>
+<li>POJO类必须重写toString方法  方法抛出异常的时候，便于排查问题</li>
+<li><p>使用索引访问String的split得到数组时候，需要做一个分割符后有无内容检查。否者会抛出IndexOutOfBoundsException</p>
+<blockquote>
+<p> String  str=”a,b,c,,”; String arry=str.split(“,”) syso(arry.length) 实际结果大于3</p>
+</blockquote>
+</li>
+<li><p>类中方法的定义顺序 共有方法-&gt;私有方法-&gt;getter/setter方法</p>
+</li>
+<li>fianl 可以提高程序的响应效率，</li>
+<li>工具类不允许有public 或default构造方法</li>
+<li>类非static成员变量并且与子类共享。必须是protected</li>
+<li>类非static成员变量并且只在本类使用。必须是private</li>
+<li>类static成员变量并且在本类使用。必须是private</li>
+<li>类成员方法只对继承类公开,那么限制为protected</li>
+</ol>
+<h2 id="集合处理"><a href="#集合处理" class="headerlink" title="集合处理"></a>集合处理</h2><ol>
+<li>Map/Set为自定义对象的时候，必须重写hashCode和equals</li>
+<li>ArrayList的subList的结果补鞥呢转成ArrayList，因为sublist返回的ArrayList的内部类SubList</li>
+<li>在subList场景中对原集合元素个数的修改，会产生异常</li>
+<li>使用工具类的Arrays，asList把数组转成集合时候，不能使用其他方法修改集合的数据<br>5.</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/Netty-异步和事件驱动/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1034,7 +1421,7 @@ public class ChannelHandler  extends  ChannelInboundHandlerAdapter{
           
             <div class="site-state-item site-state-posts">
               <a href="/">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1047,7 +1434,7 @@ public class ChannelHandler  extends  ChannelInboundHandlerAdapter{
             
             <div class="site-state-item site-state-tags">
               
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               
             </div>
