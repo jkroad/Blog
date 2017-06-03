@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,线程,并发," />
+  <meta name="keywords" content="java 多线程," />
 
 
 
@@ -87,31 +87,33 @@
 
 
 
-<meta name="description" content="java多线程-概念和原理进程和线程的概念进程进程:是指一个内存中运行的应用程序，每个进程都有自己独立的一块内存空间，一个进程中可以启动多个线程。比如在Windows系统中，一个运行的exe就是一个进程
-线程线程是指进程中的一个执行流程，一个进程中可以运行多个线程。比如java.exe进程中可以运行很多线程。线程总是属于某个进程，进程中的多个线程共享进程的内存。
-java中的线程：
+<meta name="description" content="Java多线程-线程的执行过程java 线程的状态Java线程一共有五个状态，分别是新建，可运行，运行中，睡眠，阻塞，等待，死亡 如下图
 
-通过java">
+
+新建(New):创建一个新的线程。
+可运行(runnable)：线程对象创建后，其他线程(比如main线程）调用了该对象的start()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu 的使用权 。
+运行(running)：可运行状态(r">
 <meta property="og:type" content="article">
-<meta property="og:title" content="java多线程-概念和原理">
-<meta property="og:url" content="http://yoursite.com/2017/03/06/java多线程-概念和原理/index.html">
+<meta property="og:title" content="Java多线程-线程的执行过程">
+<meta property="og:url" content="http://yoursite.com/2017/06/03/Java多线程-线程的执行过程/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="java多线程-概念和原理进程和线程的概念进程进程:是指一个内存中运行的应用程序，每个进程都有自己独立的一块内存空间，一个进程中可以启动多个线程。比如在Windows系统中，一个运行的exe就是一个进程
-线程线程是指进程中的一个执行流程，一个进程中可以运行多个线程。比如java.exe进程中可以运行很多线程。线程总是属于某个进程，进程中的多个线程共享进程的内存。
-java中的线程：
+<meta property="og:description" content="Java多线程-线程的执行过程java 线程的状态Java线程一共有五个状态，分别是新建，可运行，运行中，睡眠，阻塞，等待，死亡 如下图
 
-通过java">
-<meta property="og:image" content="http://oe64vywcw.bkt.clouddn.com/WX20170228-184149@2x.png">
-<meta property="og:image" content="http://oe64vywcw.bkt.clouddn.com/image2.png">
-<meta property="og:updated_time" content="2017-03-08T06:57:50.000Z">
+
+新建(New):创建一个新的线程。
+可运行(runnable)：线程对象创建后，其他线程(比如main线程）调用了该对象的start()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu 的使用权 。
+运行(running)：可运行状态(r">
+<meta property="og:image" content="http://oe64vywcw.bkt.clouddn.com/threadStatusImage.jpg">
+<meta property="og:updated_time" content="2017-06-03T03:31:04.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="java多线程-概念和原理">
-<meta name="twitter:description" content="java多线程-概念和原理进程和线程的概念进程进程:是指一个内存中运行的应用程序，每个进程都有自己独立的一块内存空间，一个进程中可以启动多个线程。比如在Windows系统中，一个运行的exe就是一个进程
-线程线程是指进程中的一个执行流程，一个进程中可以运行多个线程。比如java.exe进程中可以运行很多线程。线程总是属于某个进程，进程中的多个线程共享进程的内存。
-java中的线程：
+<meta name="twitter:title" content="Java多线程-线程的执行过程">
+<meta name="twitter:description" content="Java多线程-线程的执行过程java 线程的状态Java线程一共有五个状态，分别是新建，可运行，运行中，睡眠，阻塞，等待，死亡 如下图
 
-通过java">
-<meta name="twitter:image" content="http://oe64vywcw.bkt.clouddn.com/WX20170228-184149@2x.png">
+
+新建(New):创建一个新的线程。
+可运行(runnable)：线程对象创建后，其他线程(比如main线程）调用了该对象的start()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu 的使用权 。
+运行(running)：可运行状态(r">
+<meta name="twitter:image" content="http://oe64vywcw.bkt.clouddn.com/threadStatusImage.jpg">
 
 
 
@@ -139,13 +141,13 @@ java中的线程：
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/03/06/java多线程-概念和原理/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/03/Java多线程-线程的执行过程/"/>
 
 
 
 
 
-  <title> java多线程-概念和原理 | Hexo </title>
+  <title> Java多线程-线程的执行过程 | Hexo </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -254,7 +256,7 @@ java中的线程：
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/03/06/java多线程-概念和原理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/03/Java多线程-线程的执行过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="toy">
@@ -275,7 +277,7 @@ java中的线程：
             
             
               
-                java多线程-概念和原理
+                Java多线程-线程的执行过程
               
             
           </h1>
@@ -290,8 +292,8 @@ java中的线程：
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-06T22:55:28+08:00">
-                2017-03-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-03T11:29:56+08:00">
+                2017-06-03
               </time>
             
 
@@ -326,96 +328,59 @@ java中的线程：
       
 
       
-        <h1 id="java多线程-概念和原理"><a href="#java多线程-概念和原理" class="headerlink" title="java多线程-概念和原理"></a>java多线程-概念和原理</h1><h2 id="进程和线程的概念"><a href="#进程和线程的概念" class="headerlink" title="进程和线程的概念"></a>进程和线程的概念</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><p>进程:是指一个内存中运行的应用程序，每个进程都有自己独立的一块内存空间，一个进程中可以启动多个线程。比如在Windows系统中，一个运行的exe就是一个进程</p>
-<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><p>线程是指进程中的一个执行流程，一个进程中可以运行多个线程。比如java.exe进程中可以运行很多线程。线程总是属于某个进程，进程中的多个线程共享进程的内存。</p>
-<p>java中的线程：</p>
-<ul>
-<li>通过java.lang.Thread类或者java.lang.runnable接口 来定义，实例化和启动线程</li>
-<li>java中。每一个线程都一个调用栈，即使不在程序中创建新的线程，线程也在后台运行</li>
-<li>Java应用从main()方法开始运行。main()方法运行在一个线程内，被称为主线程</li>
-<li>每创建一个线程。就会产生一个新的调用栈</li>
+        <h1 id="Java多线程-线程的执行过程"><a href="#Java多线程-线程的执行过程" class="headerlink" title="Java多线程-线程的执行过程"></a>Java多线程-线程的执行过程</h1><h2 id="java-线程的状态"><a href="#java-线程的状态" class="headerlink" title="java 线程的状态"></a>java 线程的状态</h2><p>Java线程一共有五个状态，分别是新建，可运行，运行中，睡眠，阻塞，等待，死亡 如下图</p>
+<p><img src="http://oe64vywcw.bkt.clouddn.com/threadStatusImage.jpg" alt="线程状态图"></p>
+<ol>
+<li><strong>新建(New)</strong>:创建一个新的线程。</li>
+<li><strong>可运行(runnable)</strong>：线程对象创建后，其他线程(比如main线程）调用了该对象的start()方法。该状态的线程位于可运行线程池中，等待被线程调度选中，获取cpu 的使用权 。</li>
+<li><strong>运行(running)</strong>：可运行状态(runnable)的线程获得了cpu 时间片（timeslice） ，执行程序代码。</li>
+<li><strong>阻塞(block)</strong>：阻塞状态是指线程因为某种原因放弃了cpu 使用权，也即让出了cpu timeslice，暂时停止运行。直到线程进入可运行(runnable)状态，才有机会再次获得cpu timeslice 转到运行(running)状态。阻塞的情况分三种<ul>
+<li><em>等待阻塞</em>：运行(running)的线程执行o.wait()方法，JVM会把该线程放入等待队列(waitting queue)中。</li>
+<li><em>同步阻塞</em>：运行(running)的线程在获取对象的同步锁时，若该同步锁被别的线程占用，则JVM会把该线程放入锁池(lock pool)中。</li>
+<li><em>其他阻塞</em>：运行(running)的线程执行Thread.sleep(long ms)或t.join()方法，或者发出了I/O请求时，JVM会把该线程置为阻塞状态。当sleep()状态超时、join()等待线程终止或者超时、或者I/O处理完毕时，线程重新转入可运行(runnable)状态。</li>
 </ul>
-<p>线程分类:</p>
-<ul>
-<li>用户线程</li>
-<li>守护线程</li>
-</ul>
+</li>
+<li><strong>死亡(dead)</strong>：线程run()、main() 方法执行结束，或者因异常退出了run()方法，则该线程结束生命周期。死亡的线程不可再次复生。如果在一个死去的线程上调用start()方法，会抛出java.lang.IllegalThreadStateException异常</li>
+</ol>
+<h2 id="阻止线程的执行"><a href="#阻止线程的执行" class="headerlink" title="阻止线程的执行"></a>阻止线程的执行</h2><p>阻止线程的执行一般有四种可能：</p>
+<ol>
+<li>I/O阻塞</li>
+<li>睡眠</li>
+<li>等待</li>
+<li>缺少对象锁</li>
+</ol>
+<h3 id="线程-睡眠"><a href="#线程-睡眠" class="headerlink" title="线程-睡眠"></a>线程-睡眠</h3><p>在Java执行多线程程序的时候，由于Java的规范不能保证线程之间的合理轮换，导致某一个线程一直执行，或者线程执行太快，这些时候就需要使用线程睡眠的方法。<br>线程睡眠的主要通过调用Thread.sleep(long millis)/Thread.sleeep(long millis,int nanos)方法让使当前运行的线程休眠，让另一个线程执行。</p>
+<p>使用方式：</p>
+<pre><code>try { 
+       Thread.sleep(100); 
+    } catch (InterruptedException e) { 
+          e.printStackTrace();  
+    }
+</code></pre><h3 id="线程优先权"><a href="#线程优先权" class="headerlink" title="线程优先权"></a>线程优先权</h3><p>在Java中线程总是存在优先级，优先级的范围从1到10，数值越大优先级越高，默认的优先级为5。JVM线程调度程序是基于优先级的抢先调用机制。</p>
+<p><strong>注</strong></p>
+<ol>
+<li>优先权最高的线程在执行的时候会被优先执行，但是不能保证线程启动的时候就进入运行状态   </li>
+<li>正在运行的线程优先级要大于在线程池中等待的线程</li>
+<li>通过Thread.setPriority()来这种线程的优先级</li>
+<li>在线程被调用前，线程的优先级就应该被设定</li>
+<li>通过常量来设置优先级 例如：MAX_PRIORITY </li>
+</ol>
+<h3 id="THread-yield-方法"><a href="#THread-yield-方法" class="headerlink" title="THread.yield() 方法"></a>THread.yield() 方法</h3><p>定义：</p>
 <blockquote>
-<p> 当所有用户线程执行完毕的时候，JVM自动关闭。但是守候线程却不独立于JVM，守候线程一般是由操作系统或者用户自己创建的</p>
+<p>/**</p>
+<ul>
+<li>A hint to the scheduler that the current thread is willing to yield its current use of a processor. The scheduler is free to ignore</li>
+<li>this hint. Yield is a heuristic attempt to improve relative progression between threads that would otherwise over-utilize a CPU.</li>
+<li>Its use should be combined with detailed profiling and benchmarking to ensure that it actually has the desired effect.<br>*/</li>
+</ul>
+<p>public static native void yield();</p>
 </blockquote>
-<h3 id="线程的使用"><a href="#线程的使用" class="headerlink" title="线程的使用"></a>线程的使用</h3><p>1.线程实例化：</p>
 <ul>
-<li>扩展了Java.lang.Thread的线程，直接创建对象</li>
-<li>实现java.lang.runnable接口的类。则用Thread的构造方法<ul>
-<li>Thread(Runnable target)</li>
-<li>Thread(Runnable target, String name)</li>
-<li>Thread(ThreadGroup group, Runnable target)</li>
-<li>Thread(ThreadGroup group, Runnable target, String name)</li>
-<li>Thread(ThreadGroup group, Runnable target, String name, long stackSize) </li>
+<li>yield()方法 是一个 静态的native(原生)方法</li>
+<li>yield()方法 会把当前正在执行的线程停止，并把线程的运行机会交给线程池中优先级相同的线程在执行</li>
+<li>yield()方法 不能使正在运行的线程转为可运行状态</li>
+<li>yield()方法只能使一个线程从运行状态转成可运行状态而不是等待或阻塞状态</li>
 </ul>
-</li>
-</ul>
-<p>2.启动线程</p>
-<ul>
-<li>在线程的Thread对象上调用start()方法<ul>
-<li>调用start()方法前，线程处于新状态(有一个Thread对象，但是还没有一个真正的线程)</li>
-<li>调用start()方法后。启动新的执行线程(具有新的调用栈)，从新状态转移到可运行状态。</li>
-</ul>
-</li>
-</ul>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p> 1.实现Runnable接口</p>
-<pre><code>      public class DoSomething implements RUnnable{
-              private String name;
-
-              public DoSomething(String name){
-                  this.name=name;
-              }
-
-              public void  run(){
-                  for(int i=0;i&lt;5;i++){
-                      for(long k=0;k&lt;10000000;k++);
-                      System.out.println(name+:+&quot;i&quot;);
-                  }
-              }
-      }    
-     //测试Runnable类实现的多线程程序 
-    public class TestRunnable {
-        public static void main(String[] args) {
-            Dosomething dos1=new Dosomething(&quot;啊三&quot;);
-            Dosomething dos2=new Dosomething(&quot;李四&quot;);
-
-            Thread th1=new Thread(dos1);
-            Thread th2=new Thread(dos2);
-
-            th1.start();
-            th2.start();
-        }
-    }         
-
-执行结果 :
-</code></pre><p><img src="http://oe64vywcw.bkt.clouddn.com/WX20170228-184149@2x.png" alt="结果"> </p>
-<p>2.扩展Thread实现多线程的例子</p>
-<pre><code>public class TestThread extends Thread {
-    public TestThread(String name){
-        super(name);
-    }
-
-    public void run(){
-        for(int i=0;i&lt;5;i++){
-            for(long k=0;k&lt;1000000;k++);//模拟耗时操作
-            System.out.println(this.getName()+&quot;:&quot;+i);
-        }
-    }
-
-    public static void main(String[] args) {
-        Thread t1=new TestThread(&quot;阿三&quot;);
-        Thread t2=new TestThread(&quot;李四&quot;);
-        t1.start();
-        t2.start();
-    }
-}
-</code></pre><p>结果：<br>    <img src="http://oe64vywcw.bkt.clouddn.com/image2.png" alt="结果"> </p>
-<p>注:线程一旦启动，就不能重新启动。当目标方法的run方法结束的时候，说明线程已完成</p>
 
       
     </div>
@@ -439,11 +404,7 @@ java中的线程：
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
-            <a href="/tags/线程/" rel="tag"># 线程</a>
-          
-            <a href="/tags/并发/" rel="tag"># 并发</a>
+            <a href="/tags/java-多线程/" rel="tag"># java 多线程</a>
           
         </div>
       
@@ -456,8 +417,8 @@ java中的线程：
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/03/06/Markdown-让书写更美好/" rel="next" title="Markdown:让书写更美好">
-                <i class="fa fa-chevron-left"></i> Markdown:让书写更美好
+              <a href="/2017/03/06/java多线程-概念和原理/" rel="next" title="java多线程-概念和原理">
+                <i class="fa fa-chevron-left"></i> java多线程-概念和原理
               </a>
             
           </div>
@@ -466,8 +427,8 @@ java中的线程：
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/03/Java多线程-线程的执行过程/" rel="prev" title="Java多线程-线程的执行过程">
-                Java多线程-线程的执行过程 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/06/03/Netty-异步和事件驱动/" rel="prev" title="Netty-异步和事件驱动">
+                Netty-异步和事件驱动 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -588,7 +549,7 @@ java中的线程：
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#java多线程-概念和原理"><span class="nav-number">1.</span> <span class="nav-text">java多线程-概念和原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#进程和线程的概念"><span class="nav-number">1.1.</span> <span class="nav-text">进程和线程的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#进程"><span class="nav-number">1.1.1.</span> <span class="nav-text">进程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程"><span class="nav-number">1.1.2.</span> <span class="nav-text">线程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程的使用"><span class="nav-number">1.1.3.</span> <span class="nav-text">线程的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.1.4.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Java多线程-线程的执行过程"><span class="nav-number">1.</span> <span class="nav-text">Java多线程-线程的执行过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#java-线程的状态"><span class="nav-number">1.1.</span> <span class="nav-text">java 线程的状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#阻止线程的执行"><span class="nav-number">1.2.</span> <span class="nav-text">阻止线程的执行</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程-睡眠"><span class="nav-number">1.2.1.</span> <span class="nav-text">线程-睡眠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程优先权"><span class="nav-number">1.2.2.</span> <span class="nav-text">线程优先权</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#THread-yield-方法"><span class="nav-number">1.2.3.</span> <span class="nav-text">THread.yield() 方法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
